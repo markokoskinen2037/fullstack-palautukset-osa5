@@ -26,6 +26,8 @@ class App extends React.Component {
       })
       console.log("login successs!!")
 
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+      blogService.setToken(user.token)
       this.setState({ username: '', password: '', user })
     } catch (exception) {
       this.setState({
@@ -42,6 +44,7 @@ class App extends React.Component {
     const blogObject = {
       title: this.state.title,
       url: this.state.url,
+      author: this.state.author,
     }
     blogService
       .create(blogObject)
@@ -49,7 +52,8 @@ class App extends React.Component {
         this.setState({
           blogs: this.state.blogs.concat(newBlog),
           title: "",
-          url: ""
+          url: "",
+          author: ""
         })
       })
   }
@@ -70,9 +74,31 @@ class App extends React.Component {
     blogService.getAll().then(blogs =>
       this.setState({ blogs })
     )
+
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      this.setState({ user })
+      blogService.setToken(user.token)
+    }
   }
 
+  handleTitleChange = (event) => {
+    this.setState({ title: event.target.value })
+  }
 
+  handleUrlChange = (event) => {
+    this.setState({ url: event.target.value })
+  }
+
+  handleAuthorChange = (event) => {
+    this.setState({ author: event.target.value })
+  }
+
+  handleLogout = (event) => {
+    window.localStorage.removeItem("loggedBlogAppUser")
+    window.location.reload(false);
+  }
 
 
   render() {
@@ -108,10 +134,21 @@ class App extends React.Component {
       <div>
         <h2>Luo uusi blogi</h2>
 
-        <form onSubmit={this.addNote}>
+        <form onSubmit={this.addBlog}>
+        Title:
           <input
-            value={this.state.newNote}
-            onChange={this.handleNoteChange}
+            value={this.state.title}
+            onChange={this.handleTitleChange}
+          />
+          URL:
+          <input
+            value={this.state.url}
+            onChange={this.handleUrlChange}
+          />
+          Author:
+          <input
+            value={this.state.author}
+            onChange={this.handleAuthorChange}
           />
           <button type="submit">tallenna</button>
         </form>
@@ -121,7 +158,7 @@ class App extends React.Component {
     const blogs = () => (
       <div>
         <h2>blogs</h2>
-        <p>{this.state.user.name} logged in</p>
+        <p>{this.state.user.name} logged in</p> <button onClick={() => this.handleLogout()}>log out</button>
         {this.state.blogs.map(blog =>
           <Blog key={blog._id} blog={blog} />
         )}
@@ -129,10 +166,10 @@ class App extends React.Component {
     )
     return (
       <div>
-        {this.state.user === null && loginForm() }
+        {this.state.user === null && loginForm()}
 
-        {this.state.user !== null && blogForm() && blogs()}
-
+        {this.state.user !== null && blogs()}
+        {this.state.user !== null && blogForm()}
 
 
 
