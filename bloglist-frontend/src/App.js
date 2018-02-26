@@ -53,7 +53,8 @@ class App extends React.Component {
           blogs: this.state.blogs.concat(newBlog),
           title: "",
           url: "",
-          author: ""
+          author: "",
+          error: "added new blog:  " + blogObject.title
         })
       })
   }
@@ -130,6 +131,12 @@ class App extends React.Component {
       </div>
     )
 
+    const error = () => (
+      <div>
+        <p>{this.state.error}</p>
+      </div>
+    )
+
     const blogForm = () => (
       <div>
         <h2>Luo uusi blogi</h2>
@@ -166,6 +173,9 @@ class App extends React.Component {
     )
     return (
       <div>
+
+        {this.state.error !== null && error()}
+
         {this.state.user === null && loginForm()}
 
         {this.state.user !== null && blogs()}
