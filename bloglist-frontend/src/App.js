@@ -13,7 +13,8 @@ class App extends React.Component {
       user: null,
       error: null,
       title: "",
-      url: ""
+      url: "",
+      addBlogVisible: false
     }
   }
 
@@ -25,6 +26,11 @@ class App extends React.Component {
         password: this.state.password
       })
       console.log("login successs!!")
+
+      this.setState({ error: "logged in successfully!" })
+      setTimeout(() => {
+        this.setState({ error: null })
+      }, 5000)
 
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
@@ -137,30 +143,51 @@ class App extends React.Component {
       </div>
     )
 
-    const blogForm = () => (
-      <div>
-        <h2>Luo uusi blogi</h2>
+    const blogForm = () => {
 
-        <form onSubmit={this.addBlog}>
-        Title:
-          <input
-            value={this.state.title}
-            onChange={this.handleTitleChange}
-          />
-          URL:
-          <input
-            value={this.state.url}
-            onChange={this.handleUrlChange}
-          />
-          Author:
-          <input
-            value={this.state.author}
-            onChange={this.handleAuthorChange}
-          />
-          <button type="submit">tallenna</button>
-        </form>
-      </div>
-    )
+      const hideWhenVisible = { display: this.state.addBlogVisible ? 'none' : '' }
+      const showWhenVisible = { display: this.state.addBlogVisible ? '' : 'none' }
+
+
+      return (
+        <div>
+          <div style={hideWhenVisible}>
+            <button onClick={e => this.setState({ addBlogVisible: true })}>Add a new blog</button>
+          </div>
+
+          <div style={showWhenVisible}>
+
+
+            <h2>Luo uusi blogi</h2>
+
+            <form onSubmit={this.addBlog}>
+              Title:
+              <input
+                value={this.state.title}
+                onChange={this.handleTitleChange}
+              />
+              URL:
+                <input
+                value={this.state.url}
+                onChange={this.handleUrlChange}
+              />
+              Author:
+<input
+                value={this.state.author}
+                onChange={this.handleAuthorChange}
+              />
+              <button type="submit">tallenna</button>
+              <button onClick={e => this.setState({ addBlogVisible: false })}>Cancel addition</button>
+            </form>
+
+
+
+
+          </div>
+
+        </div>
+      )
+    }
 
     const blogs = () => (
       <div>
@@ -179,7 +206,7 @@ class App extends React.Component {
         {this.state.user === null && loginForm()}
 
         {this.state.user !== null && blogs()}
-        {this.state.user !== null && blogForm()}
+        {this.state.user !== null && blogForm(this.addBlog, this.handleTitleChange, this.handleUrlChange, this.handleAuthorChange, this.state.title, this.state.author, this.state.url)}
 
 
 
