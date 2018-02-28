@@ -14,7 +14,8 @@ class App extends React.Component {
       error: null,
       title: "",
       url: "",
-      addBlogVisible: false
+      addBlogVisible: false,
+      showDetails: false
     }
   }
 
@@ -189,12 +190,21 @@ class App extends React.Component {
       )
     }
 
+    function toggleDetails() {
+      console.log("here i am")
+      if (this.state.showDetails === true) {
+        this.setState({ showDetails: false })
+      } else {
+        this.setState({ showDetails: true })
+      }
+    }
+
     const blogs = () => (
       <div>
         <h2>blogs</h2>
         <p>{this.state.user.name} logged in</p> <button onClick={() => this.handleLogout()}>log out</button>
         {this.state.blogs.map(blog =>
-          <Blog key={blog._id} blog={blog} />
+          <p onClick={e => this.setState({showDetails : true})}><Blog showDetails={this.state.showDetails} key={blog._id} blog={blog} /></p>
         )}
       </div>
     )
@@ -206,7 +216,7 @@ class App extends React.Component {
         {this.state.user === null && loginForm()}
 
         {this.state.user !== null && blogs()}
-        {this.state.user !== null && blogForm(this.addBlog, this.handleTitleChange, this.handleUrlChange, this.handleAuthorChange, this.state.title, this.state.author, this.state.url)}
+        {this.state.user !== null && blogForm()}
 
 
 
