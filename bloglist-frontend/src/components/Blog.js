@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 
 
 
@@ -38,6 +38,14 @@ const Blog = ({ toggleDetails, showDetails, blog }) => {
 
     </div>
   )
+
+
+Blog.PropTypes = {
+  toggleDetails: PropTypes.func.isRequired,
+  showDetails : PropTypes.bool.isRequired,
+  blog : PropTypes.object.isRequired
+}
+
 }
 
 
