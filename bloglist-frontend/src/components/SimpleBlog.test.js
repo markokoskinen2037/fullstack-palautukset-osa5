@@ -33,4 +33,27 @@ describe.only('<SimpleBlog />', () => {
 
         expect(contentDiv.text()).toContain(testBlog.likes)
     })
+
+    test('clicking the button calls event handler twice', () => {
+        const testBlog = {
+            title: "hassunhauska vitsiblogi",
+            author: "reiska pekkanen",
+            likes: 6
+        }
+
+        const mockHandler = jest.fn()
+
+        const blogComponent = shallow(
+            <SimpleBlog
+                blog={testBlog}
+                onClick={mockHandler}
+            />
+        )
+
+        const button = blogComponent.find('button')
+        button.simulate('click')
+        button.simulate('click')
+
+        expect(mockHandler.mock.calls.length).toBe(2)
+    })
 })
