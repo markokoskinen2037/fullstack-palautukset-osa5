@@ -46,6 +46,7 @@ class App extends React.Component {
     }
   }
 
+
   addBlog = (event) => {
     event.preventDefault()
     const blogObject = {
@@ -82,6 +83,7 @@ class App extends React.Component {
     blogService.getAll().then(blogs =>
       this.setState({ blogs })
     )
+
 
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
@@ -173,7 +175,7 @@ class App extends React.Component {
                 onChange={this.handleUrlChange}
               />
               Author:
-<input
+              <input
                 value={this.state.author}
                 onChange={this.handleAuthorChange}
               />
@@ -199,15 +201,32 @@ class App extends React.Component {
       }
     }
 
-    const blogs = () => (
-      <div>
-        <h2>blogs</h2>
-        <p>{this.state.user.name} logged in</p> <button onClick={() => this.handleLogout()}>log out</button>
-        {this.state.blogs.map(blog =>
-          <p onClick={e => this.setState({showDetails : true})}><Blog showDetails={this.state.showDetails} key={blog._id} blog={blog} /></p>
-        )}
-      </div>
-    )
+    const blogs = () => {
+
+      let blogit = this.state.blogs
+
+      blogit.sort(function (a, b) {
+        return b.likes - a.likes;
+      });
+
+      return (
+        <div>
+          <h2>blogs</h2>
+          <p>{this.state.user.name} logged in</p> <button onClick={() => this.handleLogout()}>log out</button>
+          {blogit.map(blog =>
+            <p onClick={e => this.setState({ showDetails: true })}><Blog showDetails={this.state.showDetails} key={blog._id} blog={blog} /></p>
+          )}
+        </div>
+      )
+    }
+
+
+
+
+
+
+
+
     return (
       <div>
 

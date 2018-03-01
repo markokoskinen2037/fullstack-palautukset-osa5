@@ -1,13 +1,13 @@
 import React from 'react'
+
+
+
+
+
 const Blog = ({ toggleDetails, showDetails, blog }) => {
-
-
 
   const hideWhenVisible = { display: showDetails ? 'none' : '' }
   const showWhenVisible = { display: showDetails ? '' : 'none' }
-
-  showDetails === true
-  console.log(showDetails)
 
   const blogStyle = {
     paddingTop: 10,
@@ -16,6 +16,9 @@ const Blog = ({ toggleDetails, showDetails, blog }) => {
     borderWidth: 1,
     marginBottom: 5
   }
+
+
+
 
   return (
 
@@ -28,7 +31,7 @@ const Blog = ({ toggleDetails, showDetails, blog }) => {
       <div style={showWhenVisible}>
         <p>{blog.title} {blog.author} </p>
         <ul>
-          <li>Likes: {blog.likes} <button>+1</button></li>
+          <li>Likes: {blog.likes} <button >+1</button></li>
           <li><a href={blog.url}>Click me to read the blog</a></li>
         </ul>
       </div>
@@ -36,5 +39,7 @@ const Blog = ({ toggleDetails, showDetails, blog }) => {
     </div>
   )
 }
+
+
 
 export default Blog
