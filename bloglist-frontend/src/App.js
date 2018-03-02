@@ -85,11 +85,16 @@ class App extends React.Component {
     )
 
 
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+
+
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser') //Jos tämmönen entry on olemassa...
     if (loggedUserJSON) {
+      console.log("user data found, you are logged in!")
       const user = JSON.parse(loggedUserJSON)
       this.setState({ user })
       blogService.setToken(user.token)
+    } else {
+      console.log("user data not found!!!!!!")
     }
   }
 

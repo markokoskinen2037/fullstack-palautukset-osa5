@@ -5,7 +5,7 @@ import SimpleBlog from './SimpleBlog'
 describe('<SimpleBlog />', () => {
     test('renders title and author', () => {
         const testBlog = {
-            title: "hassunhauska vitsiblogi",
+            title: "hassunhaauska vitsiblogi",
             author: "reiska pekkanen",
             likes: 0
         }
@@ -22,7 +22,7 @@ describe('<SimpleBlog />', () => {
     test('renders likes', () => {
         const testBlog = {
             title: "hassunhauska vitsiblogi",
-            author: "reiska pekkanen",
+            author: "reiska pekskanen",
             likes: 6
         }
 
@@ -56,4 +56,5 @@ describe('<SimpleBlog />', () => {
 
         expect(mockHandler.mock.calls.length).toBe(2)
     })
+
 })
